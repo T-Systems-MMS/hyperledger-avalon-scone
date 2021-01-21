@@ -1,0 +1,45 @@
+# Copyright 2020 Intel Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# --------------------------------------------------
+# Logging -- configuration of service logging
+# --------------------------------------------------
+[Logging]
+LogLevel = "INFO"
+LogFile  = "__screen__"
+
+# -------------------------------------------------------------------
+# Listener -- configuration of Avalon Listener
+# -------------------------------------------------------------------
+
+[Listener]
+bind = "http://localhost:1947"
+# Maximum number of work order requests the kv store is expected to hold
+# context for in a deployment. If the number of entries exceed this limit,
+# there will be purging of work order requests throughout the storage on
+# FCFS basis i.e.-The oldest request will be cleaned first.
+max_work_order_count = 1000
+# ZMQ configurations the listener would connect to
+# Same as the url and port of enclave manager socket
+zmq_url = "tcp://avalon-enclave-manager:5555"
+
+# ------------------------------------------------------------------
+# Work load execution-settings for workload execution(synchronous/asynchronous)
+# ------------------------------------------------------------------
+[WorkloadExecution]
+# Set this flag to 1 for sync workorder execution.Else set it to 0
+sync_workload_execution = 0
+
+[KvStorage]
+remote_storage_url = "http://localhost:9090"

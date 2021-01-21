@@ -1,0 +1,18 @@
+{
+    "python-hello": {
+        "module": "avalon_worker.workload.hello",
+        "class": "HelloWorkLoad"
+    },
+    "python-fib": {
+        "module": "avalon_worker.workload.fibonacci",
+        "class": "FibonacciWorkLoad"
+    },
+    "python-cpp-fib": {
+        "module": "avalon_worker.workload.fibonacci_cpp",
+        "class": "FibonacciCPPWorkLoad"
+    },
+    "secure-transaction": {
+        "module": "avalon_worker.workload.transaction",
+        "class": "TransactionWorkLoad"
+    }
+}

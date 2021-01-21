@@ -1,0 +1,330 @@
+#! /bin/bash
+
+# Copyright 2019 Intel Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ------------------------------------------------------------------------------
+
+set -e
+
+# Find Python files in subdirectory $1, optionally since date $2
+find_python_packages() {
+    topdir=$1
+    since=$2
+
+    (
+    if [ "$since" != "" ]; then
+        git ls-files -mo "$topdir/*.py" -x build
+        git diff --name-only $since "$topdir/*.py"
+    else
+        find $topdir -name \*.py
+    fi
+    ) \
+        | sort --unique \
+        | git check-ignore --stdin --non-matching --verbose \
+        | grep ^:: \
+        | sed -e 's/^::\s//' \
+        | grep -v /setup.*py$ \
+        | grep -v _pb2\.py$
+}
+
+# Find C++ source files in subdirectory $1, optionally since date $2
+find_cpp_packages() {
+    topdir=$1
+    since=$2
+
+    (
+    if [ "$since" != "" ]; then
+        git ls-files -mo "$topdir/*.cpp" -x build
+        git diff --name-only $since "$topdir/*.cpp"
+    else
+        find $topdir -name \*.cpp
+    fi
+    ) \
+        | sort --unique \
+        | git check-ignore --stdin --non-matching --verbose \
+        | grep ^:: \
+        | sed -e 's/^::\s//'
+}
+
+# Run lint on subdirectory $1, optionally since date $2.
+# Run pycodestyle on Python source if $3 is non-zero.
+# Run pylint3 if $4 is non-zero.
+# Run pycodestyle on C++ source if $5 is non-zero.
+# Run cppcheck if $6 is non-zero
+lint_module() {
+    subdir=$1
+    since=$2
+    enable_pycodestyle_py=$3
+    enable_pylint=$4
+    enable_pycodestyle_cpp=$5
+    enable_cppcheck=$6
+
+    top_dir=$(cd $(dirname $(dirname $0)) && pwd)
+
+    cd $top_dir
+
+    pylintrc=$top_dir/.pylintrc
+
+    error=0
+
+    python_packages=$(find_python_packages "$subdir" "$since")
+    cpp_packages=$(find_cpp_packages "$subdir" "$since")
+
+    if [ "$python_packages" != "" -o "$cpp_packages" != "" ]; then
+        [ $VERBOSE = 0 ] && echo "-- $subdir"
+
+        # Check Python with pycodestyle
+        if [ "$enable_pycodestyle_py" != 0 -a "$python_packages" != "" ] ; then
+            [ $VERBOSE = 0 ] && echo "---- pycodestyle in $subdir"
+            [ $VERBOSE = 1 ] && (
+                echo "--------------------------------------------------------"
+                echo "---- Running pycodestyle Python in $subdir..."
+            )
+
+            pycodestyle --config=$top_dir/.pycodestyle $python_packages \
+                || error=1
+
+        else
+            [ $VERBOSE = 1 ] && (
+                echo "--------------------------------------------------------"
+                echo "---- Skipping pycodestyle Python in $subdir. " \
+                     "(Nothing to do.)"
+            )
+        fi
+
+        # Check Python with pylint3
+        if [ "$enable_pylint" != 0 -a "$python_packages" != "" ] ; then
+            [ $VERBOSE = 0 ] && echo "---- pylint in $subdir"
+            [ $VERBOSE = 1 ] && (
+                echo "--------------------------------------------------------"
+                echo "---- Running pylint3 $pylintrc in $subdir..."
+            )
+            pylint3 \
+                --rcfile=$pylintrc \
+                --reports=no \
+                --score=no \
+                --persistent=no \
+                $python_packages || error=1
+
+        else
+            [ $VERBOSE = 1 ] && (
+                echo "--------------------------------------------------------"
+                echo "---- Skipping pylint $pylintrc in $subdir. " \
+                     "(Nothing to do.)"
+            )
+        fi
+
+        # Check C++ with pycodestyle
+        if [ "$enable_pycodestyle_cpp" != 0 -a "$cpp_packages" != "" ] ; then
+            [ $VERBOSE = 0 ] && echo "---- pycodestyle C++ in $subdir"
+            [ $VERBOSE = 1 ] && (
+                echo "--------------------------------------------------------"
+                echo "---- Running pycodestyle C++ in $subdir..."
+            )
+
+            pycodestyle --config=$top_dir/.pycodestyle $cpp_packages \
+                || error=1
+
+        else
+            [ $VERBOSE = 1 ] && (
+                echo "--------------------------------------------------------"
+                echo "---- Skipping pycodestyle C++ in $subdir. " \
+                     "(Nothing to do.)"
+            )
+        fi
+
+        # Check C++ with cppcheck
+        if [ "$enable_cppcheck" != 0 -a "$cpp_packages" != "" ] ; then
+            [ $VERBOSE = 0 ] && echo "---- cppcheck in $subdir"
+            [ $VERBOSE = 1 ] && (
+                echo "--------------------------------------------------------"
+                echo "---- Running cppcheck in $subdir..."
+            )
+            cppcheck \
+                --std=c++11 \
+                --quiet \
+                --error-exitcode=1 \
+                --max-configs=100 \
+                $cpp_packages || error=1
+
+        else
+            [ $VERBOSE = 1 ] && (
+                echo "--------------------------------------------------------"
+                echo "---- Skipping cppcheck in $subdir. " \
+                     "(Nothing to do.)"
+            )
+        fi
+
+
+        # Check for unwanted MS-DOS CR/LF-style line endings
+        [ $VERBOSE = 1 ] && (
+            echo "--------------------------------------------------------"
+            echo "---- Checking for CRLF in $subdir..."
+        )
+
+        if [ "$python_packages" != "" -a "$cpp_packages" != "" ] ; then
+            file $python_packages $cpp_packages | grep CRLF && error=1
+        fi
+
+    else
+        [ $VERBOSE = 1 ] && (
+            echo "--------------------------------------------------------"
+            echo "---- Skipping pycodestyle and pylint $pylintrc in $subdir. " \
+                 "(Nothing to do.)"
+        )
+    fi
+
+    return $error
+}
+
+usage() {
+    echo "Run pycodestyle, pylint3, and cppcheck for this repository"
+    echo "Usage:"
+    echo "  $0 [-s BRANCH] [-n] [-h] MODULE..."
+    echo "Lint MODULE(s)"
+    echo "Options:"
+    echo "  -h          print usage and exit"
+    echo "  -n          dry-run, only prints files that would be linted"
+    echo "  -s BRANCH   only lint files changed since BRANCH"
+    echo "  -v          increase verbosity"
+}
+
+# Exhaustive list of modules configured for linting
+ALL_MODULES="tests \
+enclave_manager \
+common \
+tc \
+docs_workload_tutorial \
+sdk \
+listener \
+shared_kv_storage \
+blockchain_connector \
+examples
+"
+#
+# Parse command line parameters
+#
+DRY_RUN=0
+VERBOSE=0
+SINCE=""
+while getopts :s:nhv opt
+do
+    case $opt in
+      h)
+        usage
+        exit 0
+        ;;
+      n)
+        DRY_RUN=1
+        ;;
+      s)
+        SINCE=$OPTARG
+        ;;
+      v)
+        if [ "$VERBOSE" = "1" ]; then
+            set -x
+        fi
+        VERBOSE=1
+        ;;
+      \?)
+        echo "Invalid option: -$OPTARG" >&2
+        usage
+        exit 2
+        ;;
+    esac
+done
+
+# Default to lint all modules if no module is specified
+if [ -z "$@" ]; then
+    echo "No target MODULE(s) specified to lint."
+    echo "For usage information, type: run_lint -h."
+    echo ""
+    echo "Lint will run on all modules (default)."
+    echo ""
+    MODULES=$ALL_MODULES
+else
+    MODULES=$@
+fi
+
+if [ "$DRY_RUN" = "1" ]; then
+    for dir in $MODULES
+    do
+        for package in $(find_packages "$dir" "$SINCE")
+        do
+            echo $package
+        done
+    done
+    exit 0
+fi
+
+top_dir=$(cd $(dirname $(dirname $0)) && pwd)
+rv=0
+
+# Print version information
+cppcheck --version
+echo "$(pylint3 --version | head -1)"
+echo "pycodestyle $(pycodestyle --version)"
+
+# Run pycodestyle or pylint or both for each module.
+
+# Language:                                Python  | C
+# Checks:                           pycodestyle    | pycodestyle
+#                                           pylint |    cppcheck
+
+for MODULE in $MODULES
+do
+    case $MODULE in
+        tests)
+                lint_module tests                    "$SINCE" 1  0   0  0 || rv=1
+                ;;
+        enclave_manager)
+                lint_module enclave_manager          "$SINCE" 1  0   0  0 || rv=1
+                ;;
+        tc)
+                lint_module tc                       "$SINCE" 1  0   0  1 || rv=1
+                ;;
+        common)
+                lint_module common                   "$SINCE" 1  0   0  1 || rv=1
+                ;;
+        docs_workload_tutorial)
+                lint_module docs/workload-tutorial   "$SINCE" 0  0   0  1 || rv=1
+                ;;
+        sdk)
+                lint_module sdk                      "$SINCE" 1  0   0  0 || rv=1
+                ;;
+        listener)
+                lint_module listener                 "$SINCE" 1  0   0  0 || rv=1
+                ;;
+        shared_kv_storage)
+                lint_module shared_kv_storage        "$SINCE" 1  0   0  1 || rv=1
+                ;;
+        blockchain_connector)
+                lint_module blockchain_connector     "$SINCE" 1  0   0  0 || rv=1
+                ;;
+        examples)
+                lint_module examples                 "$SINCE" 1  0   0  1 || rv=1
+                ;;
+        *)
+                echo "Module not configured for lint : $MODULE"
+                rv=1
+                ;;
+    esac
+done
+if [ $rv -eq 0 ]; then
+    echo ""
+    echo "SUCCESS"
+    exit 0
+else
+    exit $rv
+fi

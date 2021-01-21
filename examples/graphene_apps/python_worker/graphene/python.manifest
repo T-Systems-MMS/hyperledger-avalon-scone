@@ -1,0 +1,11 @@
+sgx.allow_file_creation = 1
+sgx.enclave_size = "8G"
+sgx.thread_num = 8
+sgx.file_check_policy = "allow_all_but_log"
+
+# Request remote attestation functionality from Graphene
+sgx.remote_attestation = 1
+
+# Specify your SPID and linkable/unlinkable attestation policy
+sgx.ra_client_spid = "F329765A5399A0BA93294917817E47C4"
+sgx.ra_client_linkable = 1
