@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: avalon-lmdb
+  template:
+    metadata:
+      name: avalon-lmdb
+      labels:
+        app: avalon-lmdb
+    spec:
+      containers:
+      - image: avalon-lmdb-dev:latest
+        name: lmdb-server
+        imagePullPolicy: Never
+        command: ["/bin/bash"]
+        args: ["-c", "kv_storage --bind http://0.0.0.0:9090"]
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        volumeMounts:
+        - name: db
+          mountPath: /lmdb
+      volumes:
+      - name: db
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: avalon-lmdb
+spec:
+  ports:
+  - port: 9090
+    targetPort: 9090
+  selector:
+    app: avalon-lmdb

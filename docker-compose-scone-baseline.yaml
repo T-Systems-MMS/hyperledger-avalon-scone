@@ -1,0 +1,59 @@
+# Copyright 2020 Intel Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+version: '3.5'
+
+
+networks: 
+  avalon-network:
+    driver: bridge
+    name: avalon-network
+
+services:
+  cas:
+    container_name: scone-cas
+    image: sconecuratedimages/services:cas.trust.group-out-of-date-scone4.2.1
+    command: sh -c "SCONE_HEAP=1G cas -c /etc/cas/cas.toml"
+    environment:
+      - SCONE_LOG=7
+      - SCONE_MODE=HW
+    devices:
+      - "/dev/isgx:/dev/isgx"
+    ports:
+      - target: 8081
+        protocol: tcp
+        mode: host
+        published: 8082
+      - target: 18765
+        protocol: tcp
+        mode: host
+    depends_on:
+      - las
+    networks:
+      - avalon-network
+
+  las:
+    container_name: scone-las
+    image: sconecuratedimages/services:las-scone4.2.1
+    environment:
+      - SCONE_LOG=7
+      - SCONE_MODE=HW
+    devices:
+      - "/dev/isgx:/dev/isgx"
+    ports:
+      - target: 18766
+        protocol: tcp
+        mode: host
+    networks:
+      - avalon-network

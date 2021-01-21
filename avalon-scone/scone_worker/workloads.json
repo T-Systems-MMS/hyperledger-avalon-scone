@@ -1,0 +1,22 @@
+{
+    "python-hello": {
+        "module": "workload.hello",
+        "class": "HelloWorkLoad"
+    },
+    "python-fib": {
+        "module": "workload.fibonacci",
+        "class": "FibonacciWorkLoad"
+    },
+    "secure-transaction": {
+        "module": "workload.transaction",
+        "class": "TransactionWorkLoad"
+    },
+    "scone-openvino": {
+        "module": "workload.openvino",
+        "class": "OpenvinoWorkLoad"
+    },
+    "scone-hospital-app": {
+        "module": "workload.hospital",
+        "class": "HospitalWorkLoad"
+    }
+}

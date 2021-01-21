@@ -1,0 +1,28 @@
+name: SESSION_NAME
+version: "0.3"
+
+services:
+  - name: app-secrets
+    mrenclaves: [c4dbb0a3f4ef6d2212d3d4bd0c843de2870f0f0205cd65c2bcf767ef998cadbb]
+    command: ./security_barrier_camera_demo -i input/IMAGE_NAME -m input/vehicle-license-plate-detection-barrier-0106.xml -r
+    environment:
+      OpenCV_DIR: "/opencv/build/"
+      InferenceEngine_DIR: "/dldt/inference-engine/build/"
+    pwd: /
+
+secrets:
+  - name: update_seq
+    kind: ascii
+    value: RANDOM_STRING
+    export_public: true
+
+access_policy:
+  read:
+   - CREATOR
+  update:
+   - CREATOR
+
+security:
+  attestation:
+    tolerate: [debug-mode, hyperthreading, insecure-igpu, outdated-tcb]
+    ignore_advisories: "*"

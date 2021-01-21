@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: propose-request
+spec:
+  template:
+    metadata:
+      labels:
+        app: request
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: request-proposer
+        image: avalon-shell-dev:latest
+        imagePullPolicy: Never
+        command: ["/bin/bash"]
+        args: ["/project/avalon/docker/k8s/propose_requests.sh"]

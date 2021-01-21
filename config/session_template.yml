@@ -1,0 +1,52 @@
+name: WORKER_ID
+version: "0.3"
+
+services:
+   - name: avalon-scone-worker-session
+     mrenclaves: [MR_ENCLAVE]
+     command: python3 avalon_worker/work_order_processor.py
+     environment:
+        TCF_HOME: "/project/avalon"
+        PYTHONHOME: "/project/custom-python"
+        LD_LIBRARY_PATH: "/project/custom-libressl/lib/:/project/custom-libffi/lib:/project/muslusr/lib:/project/custom-libzmq/lib"
+        SELF_IDENTITY: WORKER_ID
+        Enc_Pri_Key: "$$SCONE::encryption_private_key$$"
+        Enc_Pub_Key: "$$SCONE::encryption_public_key$$"
+        Sig_Pri_Key: "$$SCONE::signing_private_key$$"
+        Sig_Pub_Key: "$$SCONE::signing_public_key$$"
+        Enc_Key_Sig: "$$SCONE::encryption_key_signature$$"
+     pwd: /project/avalon/
+     fspf_tag: WORKER_FSPF_TAG
+     fspf_key: WORKER_FSPF_KEY
+     fspf_path: /project/fs.fspf
+
+secrets:
+  - name: encryption_private_key
+    kind: ascii
+    value: encryption_private_key_value
+  - name: encryption_public_key
+    kind: ascii
+    value: encryption_public_key_value
+    export_public: true
+  - name: signing_private_key
+    kind: ascii
+    value: signing_private_key_value
+  - name: signing_public_key
+    kind: ascii
+    value: signing_public_key_value
+    export_public: true
+  - name: encryption_key_signature  
+    kind: ascii 
+    value: encryption_key_signature_value 
+    export_public: true
+    
+access_policy:
+  read:
+   - CREATOR
+  update:
+   - CREATOR
+
+security:
+  attestation:
+    tolerate: [debug-mode, hyperthreading, insecure-igpu, outdated-tcb]
+    ignore_advisories: "*"
