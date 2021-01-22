@@ -15,7 +15,7 @@ The following instructions will guide you through the installation of [ _SCONE_]
 - To run the in Hardware Mode, get the latest code from master branch:
 
   ```bash
-  git clone https://git.t-systems-mms.com/scm/confcom/secure-avalon.git
+  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git
   ```
 
 - To run the in Hardware Mode, you can run scone-demo.sh script from the project root directory:
@@ -28,10 +28,10 @@ The following instructions will guide you through the installation of [ _SCONE_]
 
 ## RUN in SIM Mode
 
-- To run the in Simulation Mode or without Intel hardware, get the latest code from 'simulation' branch:
+- To run the in Simulation Mode or without Intel hardware, get the latest code from 'no-cas-fs-unprotected' branch:
 
   ```bash
-  git clone https://git.t-systems-mms.com/scm/confcom/secure-avalon.git -b simulation
+  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
   ```
 
 - To run the in Simulation Mode, you can run docker-compose-scone-sim.yaml from the project root directory:
@@ -43,10 +43,10 @@ The following instructions will guide you through the installation of [ _SCONE_]
 
 ## RUN without Intel SGX
 
-- To run the in Simulation Mode or without Intel hardware, get the latest code from 'simulation' branch:
+- To run the in Simulation Mode or without Intel hardware, get the latest code from 'no-cas-fs-unprotected' branch:
 
   ```bash
-  git clone https://git.t-systems-mms.com/scm/confcom/secure-avalon.git -b simulation
+  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
   ```
 
 - To run the without Intel SGX, you can run docker-compose-scone.yaml from the project root directory:

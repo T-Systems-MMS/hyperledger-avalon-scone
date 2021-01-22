@@ -57,10 +57,10 @@ This app has a redis data store and python backend. We use SCONE curated redis a
   - To install Intel SGX driver please refer https://github.com/hyperledger/avalon/blob/master/PREREQUISITES.md#intel-sgx-in-hardware-mode
   - To install SCONE please refer https://sconedocs.github.io/installation/
 
-- To build Avalon SCONE worker get the latest code from 'simulation' branch:
+- To build Avalon SCONE worker get the latest code from 'no-cas-fs-unprotected' branch:
   
   ```bash
-  git clone https://git.t-systems-mms.com/scm/confcom/secure-avalon.git -b simulation
+  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
   ```
 - To run without Intel SGX hardware and SCONE, you can run docker-compose-scone.yaml from the project root directory:
 
@@ -80,7 +80,7 @@ This app has a redis data store and python backend. We use SCONE curated redis a
 
 ### Test SCONE worker using Avalon
 
-- To send work orders to SCONE worker we can use [generic client](https://git.t-systems-mms.com/projects/CONFCOM/repos/secure-avalon/browse/examples/apps/generic_client/generic_client.py?at=refs%2Fheads%2Fsimulation) application. Execute following commands:
+- To send work orders to SCONE worker we can use [generic client](https://github.com/T-Systems-MMS/hyperledger-avalon-scone/blob/no-cas-fs-unprotected/examples/apps/generic_client/generic_client.py) application. Execute following commands:
 
   1. Get into Avalon Shell container : `sudo docker exec -it avalon-shell bash`
 
@@ -118,7 +118,7 @@ This app has a redis data store and python backend. We use SCONE curated redis a
 - To build Avalon SCONE worker get the latest code from master branch:
 
   ```bash
-  git clone https://git.t-systems-mms.com/scm/confcom/secure-avalon.git
+  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git
   ```
 
 - To run the in Hardware Mode, you can run scone-demo.sh script from the project root directory:
@@ -130,7 +130,7 @@ This app has a redis data store and python backend. We use SCONE curated redis a
 
 ### Test SCONE worker using Avalon
 
-- To send work orders to SCONE worker we can use [scone generic client](https://git.t-systems-mms.com/projects/CONFCOM/repos/secure-avalon/browse/examples/scone_apps/generic_client_scone.py) application. Execute following commands:
+- To send work orders to SCONE worker we can use [scone generic client](https://github.com/T-Systems-MMS/hyperledger-avalon-scone/blob/main/examples/scone_apps/generic_client_scone.py) application. Execute following commands:
 
   1. Get into Avalon Shell container : `sudo docker exec -it avalon-shell bash`
 
