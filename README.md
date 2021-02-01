@@ -53,7 +53,8 @@ For whitepaper, see
 [_Hyperledger-Avalon-Scone-Whitepaper.pdf_](docs/whitepaper_avalon_scone.pdf).
 
 For demo of the applications running with SCONE workers, see
-[_Hyperledger-Avalon-Scone-Demo.mp4_](docs/avalon-scone-workloads-demo.mp4).
+[_Hyperledger-Avalon-Scone-Demo.mp4_](https://drive.google.com/file/d/1cvAZFJGkGXEHFVFMG_QnTOEDjZFlpgbO/view?usp=sharing).
+[![Hyperledger Avalon SCONE demo](../images/avalon-scone-screenshot.PNG](https://drive.google.com/file/d/1cvAZFJGkGXEHFVFMG_QnTOEDjZFlpgbO/view?usp=sharing)
 
 ## Building
 
