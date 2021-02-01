@@ -42,7 +42,6 @@ apply a consistent and compatible approach to all supported blockchains.
 For more details on Hyperledger Avalon architecture, see
 [_avalon-arch.pdf_](docs/avalon-arch.pdf).
 
-<img src="images/avalon-scone-icon.png" alt="Hyperledger Avalon logo" /> 
 
 # Hyperledger Avalon with SCONE
 

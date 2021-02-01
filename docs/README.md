@@ -13,21 +13,20 @@ https://creativecommons.org/licenses/by/4.0/
 [![Hyperledger Avalon SCONE demo](../images/avalon-scone-screenshot.png)](https://drive.google.com/file/d/1cvAZFJGkGXEHFVFMG_QnTOEDjZFlpgbO/view?usp=sharing)
 
 ## Community
-* [Email](mujtaba.idrees@t-systems.com)
+* [Email](mailto:mujtaba.idrees@t-systems.com)
 
 ## Avalon Tutorials
 * [Workload Application Tutorial](./workload-tutorial/)
-* [Example Applications](../examples/apps/)
+* [Example Applications](../examples)
 * Avalon Proxy Model Demos with:
   * [Avalon Proxy model with Ganache and Ethereum](./TestingGanacheProxyModel.rst)
   * [Avalon Proxy model with Besu and Ethereum](./TestingBesuProxyModel.rst)
   * [Avalon Proxy model with Hyperledger Fabric](./TestingFabricProxyModel.rst)
 
 ## Source Code
-* [Avalon SCONE source code repository, https://github.com/T-Systems-MMS/hyperledger-avalon-scone](
-  https://github.com/T-Systems-MMS/hyperledger-avalon-scone)
+* [Avalon SCONE source code repository](https://github.com/T-Systems-MMS/hyperledger-avalon-scone)
 * [Building source code](../BUILD.md)
-* [Example Avalon applications](../examples)
+* [Example Avalon applications](../examples/apps)
 
 
 ## Reference
