@@ -54,7 +54,7 @@ For whitepaper, see
 
 For demo of the applications running with SCONE workers, see
 [_Hyperledger-Avalon-Scone-Demo.mp4_](https://drive.google.com/file/d/1cvAZFJGkGXEHFVFMG_QnTOEDjZFlpgbO/view?usp=sharing).
-[![Hyperledger Avalon SCONE demo](../images/avalon-scone-screenshot.PNG](https://drive.google.com/file/d/1cvAZFJGkGXEHFVFMG_QnTOEDjZFlpgbO/view?usp=sharing)
+[![Hyperledger Avalon SCONE demo](../images/avalon-scone-screenshot.PNG)](https://drive.google.com/file/d/1cvAZFJGkGXEHFVFMG_QnTOEDjZFlpgbO/view?usp=sharing)
 
 ## Building
 
