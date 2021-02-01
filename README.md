@@ -68,7 +68,7 @@ To build Hyperledger Avalon, follow instructions in the
 [Scone Documentation](https://scontain.com/index.html?lang=en)
 
 ## Initial Committers
-* Mujtaba Idrees (mujtabaidrees94)
+* Mujtaba Idrees (mujtabaidrees94) [Email](mailto:mujtaba.idrees@t-systems.com)
 
 ## Sponsor
 * Technische Universität Dresden
