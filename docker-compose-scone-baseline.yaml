@@ -23,7 +23,7 @@ networks:
 services:
   cas:
     container_name: scone-cas
-    image: sconecuratedimages/services:cas.trust.group-out-of-date-scone4.2.1
+    image: registry.scontain.com:5050/sconecuratedimages/services:cas.trust.group-out-of-date-scone4.2.1
     command: sh -c "SCONE_HEAP=1G cas -c /etc/cas/cas.toml"
     environment:
       - SCONE_LOG=7
@@ -45,7 +45,7 @@ services:
 
   las:
     container_name: scone-las
-    image: sconecuratedimages/services:las-scone4.2.1
+    image: registry.scontain.com:5050/sconecuratedimages/services:las-scone4.2.1
     environment:
       - SCONE_LOG=7
       - SCONE_MODE=HW

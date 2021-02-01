@@ -48,8 +48,8 @@ export DEVICE="/dev/sgx"
 export KME_ALIAS="scone-kme"
 export AVALON_NETWORK="avalon-network"
 export CAS_MRENCLAVE="309e23ffab10255e7332c92b230d2208dcbc5db0408c3af26093c830033bc2e4"
-export SCONE_RUNTIME_IMAGE="sconecuratedimages/crosscompilers:runtime-alpine3.7-scone4"
-export CLI_IMAGE="sconecuratedimages/kubernetes:hello-k8s-scone0.1"
+export SCONE_RUNTIME_IMAGE="registry.scontain.com:5050/sconecuratedimages/crosscompilers:runtime-alpine3.7-scone4"
+export CLI_IMAGE="registry.scontain.com:5050/sconecuratedimages/kubernetes:hello-k8s-scone0.1"
 
 
 # create directories for protected files and fspf for KME

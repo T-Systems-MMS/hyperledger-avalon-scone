@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM sconecuratedimages/muslgcc:alpine-scone5 as libraries
+FROM registry.scontain.com:5050/sconecuratedimages/muslgcc:alpine-scone5 as libraries
 
 RUN apk update && \
    apk add \
@@ -85,7 +85,7 @@ RUN pip3 install toml==0.10.2
 RUN pip3 install Flask==1.1.2
 RUN pip3 install pyOpenSSL==19.1.0
 
-FROM sconecuratedimages/crosscompilers:runtime-alpine3.7-scone4
+FROM registry.scontain.com:5050/sconecuratedimages/crosscompilers:runtime-alpine3.7-scone4
 
 COPY --from=libraries /custom-libzmq/lib /custom-libzmq/lib
 COPY --from=libraries /custom-libffi/lib /custom-libffi/lib
