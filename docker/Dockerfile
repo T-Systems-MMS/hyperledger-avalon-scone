@@ -25,7 +25,7 @@
 #   --build-arg https_proxy=$https_proxy --build-arg http_proxy=$http_proxy --build-arg ftp_proxy=$ftp_proxy
 
 # -------------=== build avalon shell image ===-------------
-FROM sconecuratedimages/crosscompilers:ubuntu18.04 as base_image
+FROM registry.scontain.com:5050/sconecuratedimages/crosscompilers:ubuntu18.04 as base_image
 
 # Ignore timezone prompt in apt
 ENV DEBIAN_FRONTEND=noninteractive
