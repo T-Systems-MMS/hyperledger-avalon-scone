@@ -49,11 +49,8 @@ that supports blockchain integration and basic registry service for trusted comp
 We provide SCONE based workers for Hyperledger Avalon that can be used to run legacy 
 applications within the framework of Hyperledger Avalon. 
 
-For the thesis proposal and goals, see
-[_Hyperledger-Avalon-Scone-Proposal.pdf_](docs/TCEBB-Proposal.pdf).
-
-For detailed documentation of the thesis, see
-[_Hyperledger-Avalon-Scone-Documentation.pdf_](docs/TCEBB-Report.pdf).
+For whitepaper, see
+[_Hyperledger-Avalon-Scone-Whitepaper.pdf_](docs/whitepaper_avalon_scone.pdf).
 
 For demo of the applications running with SCONE workers, see
 [_Hyperledger-Avalon-Scone-Demo.mp4_](docs/avalon-scone-workloads-demo.mp4).
