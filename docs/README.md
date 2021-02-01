@@ -31,7 +31,7 @@ https://creativecommons.org/licenses/by/4.0/
 
 ## Reference
 * [_Hyperledger Avalon SCONE Whitepaper_](./whitepaper_avalon_scone.pdf).
-  Overview of Avalon architecture by Eugene Yarmosh (2020
+  Fork of Hyperledger Avalon that supports SCONE workers, by Mujtaba Idrees (2021)
 * [_Hyperledger Avalon Architecture Overview_](
   https://github.com/hyperledger/avalon/blob/master/docs//avalon-arch.pdf).
   Overview of Avalon architecture by Eugene Yarmosh (2020)
