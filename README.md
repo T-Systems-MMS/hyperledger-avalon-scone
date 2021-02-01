@@ -42,6 +42,8 @@ apply a consistent and compatible approach to all supported blockchains.
 For more details on Hyperledger Avalon architecture, see
 [_avalon-arch.pdf_](docs/avalon-arch.pdf).
 
+<img src="images/avalon-scone-icon.png" alt="Hyperledger Avalon logo" /> 
+
 # Hyperledger Avalon with SCONE
 
 This particular fork of Hyperledger Avalon is made at its stable release v0.6
@@ -54,7 +56,6 @@ For whitepaper, see
 
 For demo of the applications running with SCONE workers, see
 [_Hyperledger-Avalon-Scone-Demo.mp4_](https://drive.google.com/file/d/1cvAZFJGkGXEHFVFMG_QnTOEDjZFlpgbO/view?usp=sharing).
-[![Hyperledger Avalon SCONE demo](../images/avalon-scone-screenshot.PNG)](https://drive.google.com/file/d/1cvAZFJGkGXEHFVFMG_QnTOEDjZFlpgbO/view?usp=sharing)
 
 ## Building
 
@@ -67,33 +68,19 @@ To build Hyperledger Avalon, follow instructions in the
 
 [Scone Documentation](https://scontain.com/index.html?lang=en)
 
-## Contributing
-
-See the [contributing document](CONTRIBUTING.md)
-for information on how to contribute and the guidelines for contributions.
-
 ## Initial Committers
-* Manjunath A C (manju956)
-* Daniel Anderson (danintel)
-* Thomas J Barnes (TomBarnes)
-* Srinath Duraisamy (srinathduraisamy)
-* Manoj Gopalakrishnan (manojgop)
-* Karthika Murthy (Karthika)
-* Ramakrishna Srinivasamurthy (ram-srini)
-* Yevgeniy Y. Yarmosh (EugeneYYY)
 * Mujtaba Idrees (mujtabaidrees94)
 
 ## Sponsor
-* Mic Bowman (cmickeyb) - TSC member
 * Technische Universität Dresden
 * T-Systems MMS
 
 ## License
-Hyperledger Avalon is released under the Apache License
+Hyperledger Avalon SCONE is released under the Apache License
 Version 2.0 software license. See the [license file](LICENSE) for more details.
 
-Hyperledger Avalon documentation is licensed under the
+Hyperledger Avalon SCONE documentation is licensed under the
 Creative Commons Attribution 4.0 International License. You may obtain a copy
 of the license at: http://creativecommons.org/licenses/by/4.0/.
 
-© Copyright 2019-2020, Intel Corporation.
+

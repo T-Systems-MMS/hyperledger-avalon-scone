@@ -10,7 +10,7 @@ https://creativecommons.org/licenses/by/4.0/
   * [Glossary](./FAQ.rst#glossary)
 * [Hyperledger Avalon SCONE demo](https://drive.google.com/file/d/1cvAZFJGkGXEHFVFMG_QnTOEDjZFlpgbO/view?usp=sharing)
 
-[![Hyperledger Avalon SCONE demo](../images/avalon-scone-screenshot.PNG)](https://drive.google.com/file/d/1cvAZFJGkGXEHFVFMG_QnTOEDjZFlpgbO/view?usp=sharing)
+[![Hyperledger Avalon SCONE demo](../images/avalon-scone-screenshot.png)](https://drive.google.com/file/d/1cvAZFJGkGXEHFVFMG_QnTOEDjZFlpgbO/view?usp=sharing)
 
 ## Community
 * [Email](mujtaba.idrees@t-systems.com)
