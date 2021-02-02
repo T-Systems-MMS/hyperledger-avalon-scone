@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM sconecuratedimages/muslgcc as libraries
+FROM registry.scontain.com:5050/sconecuratedimages/muslgcc as libraries
 
 RUN apk update && \
    apk add \
@@ -68,7 +68,7 @@ RUN tar -xf Python-3.6.12.tgz && \
   ./configure --prefix=/custom-python && \
   make && make install
 
-FROM sconecuratedimages/crosscompilers:runtime-alpine3.7-scone4
+FROM registry.scontain.com:5050/sconecuratedimages/crosscompilers:runtime-alpine3.7-scone4
 RUN apk update && apk add make && apk add build-base
 
 COPY --from=libraries /custom-libzmq /custom-libzmq
