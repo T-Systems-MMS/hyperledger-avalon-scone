@@ -4,8 +4,8 @@ https://creativecommons.org/licenses/by/4.0/
 -->
 # Building Hyperledger Avalon With SCONE Workers
 
-Branch 'main' represents the code of workers in SCONE Secure Hw Mode 
-Branch 'no-cas-fs-unprotected' represents the code of workers (1) without SCONE (2) SCONE Sim Mode (3) SCONE Unsecure Hw Mode 
+- Branch 'main' represents the code of workers in SCONE Secure Hw Mode 
+- Branch 'no-cas-fs-unprotected' represents the code of workers (1) without SCONE (2) SCONE Sim Mode (3) SCONE Unsecure Hw Mode 
 
 ## Install SCONE
 
