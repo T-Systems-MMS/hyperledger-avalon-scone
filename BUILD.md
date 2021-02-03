@@ -7,11 +7,17 @@ https://creativecommons.org/licenses/by/4.0/
 - Branch 'main' represents the code of workers in SCONE Secure Hw Mode 
 - Branch 'no-cas-fs-unprotected' represents the code of workers (1) without SCONE (2) SCONE Sim Mode (3) SCONE Unsecure Hw Mode 
 
-## Install SCONE
+## Install and Access SCONE
 
-In order to build, install, and run Hyperledger Avalon with SCONE, SCONE
-must be installed and configured.
-The following instructions will guide you through the installation of [ _SCONE_](https://sconedocs.github.io/installation/)
+- In order to build, install, and run Hyperledger Avalon with SCONE, SCONE must be installed and configured.
+- The following instructions will guide you through the installation of [ _SCONE_](https://sconedocs.github.io/installation/)
+- After correct installation of SCONE, access to SCONE images is required, SCONE uses gitlab as their docker images directory.
+- Register at [https://gitlab.scontain.com](https://gitlab.scontain.com) and then request access for SCONE images in community version.
+- Login using gitlab credentials 
+	```
+	docker login registry.scontain.com:5050
+	```
+- After successful login you can access the SCONE images required for Hyperledger Avalon and test the workflows.
 
 ## RUN without Intel SGX
 
