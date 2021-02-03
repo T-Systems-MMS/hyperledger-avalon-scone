@@ -2,7 +2,7 @@
 Licensed under Creative Commons Attribution 4.0 International License
 https://creativecommons.org/licenses/by/4.0/
 -->
-# Building Hyperledger Avalon With SCONE
+# Building Hyperledger Avalon With SCONE Workers
 
 ## Install SCONE
 
@@ -10,9 +10,54 @@ In order to build, install, and run Hyperledger Avalon with SCONE, SCONE
 must be installed and configured.
 The following instructions will guide you through the installation of [ _SCONE_](https://sconedocs.github.io/installation/)
 
-## RUN in Hardware Mode
+## RUN without Intel SGX
 
-- To run the in Hardware Mode, get the latest code from master branch:
+- To run the code for testing without Intel SGX, get the latest code from 'no-cas-fs-unprotected' branch:
+
+  ```bash
+  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
+  ```
+
+- You can run docker-compose-scone.yaml from the project root directory:
+
+  ```bash
+  docker-compose -f docker-compose-scone.yaml up --build
+  docker-compose -f docker-compose-scone.yaml down -v
+  ```
+
+## RUN in SIM Mode
+
+- To run the in SCONE Simulation Mode, get the latest code from 'no-cas-fs-unprotected' branch:
+
+  ```bash
+  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
+  ```
+
+- To run the in Simulation Mode, you can run docker-compose-scone-sim.yaml from the project root directory:
+
+  ```bash
+  docker-compose -f docker-compose-scone-sim.yaml up --build
+  docker-compose -f docker-compose-scone-sim.yaml down -v
+  ```
+
+## RUN in Hardware Mode with No Network and File System Shields (Unsecure)
+
+- To run the in simplified SCONE Hardware Mode, get the latest code from 'no-cas-fs-unprotected' branch:
+
+  ```bash
+  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
+  ```
+
+- To run the in Simulation Mode, you can run docker-compose-scone-sim.yaml from the project root directory:
+
+  ```bash
+  docker-compose -f docker-compose-scone-hw.yaml up --build
+  docker-compose -f docker-compose-scone-hw.yaml down -v
+  ```
+
+## RUN in Hardware Mode with File System and Network Shields enabled by SCONE CAS (Secure)
+
+- To run the in Secure Hardware Mode, get the latest code from master branch:
 
   ```bash
   git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git
@@ -26,41 +71,12 @@ The following instructions will guide you through the installation of [ _SCONE_]
   ```
   It automatically starts SCONE CAS and LAS, then it creates images for SCONE KME and SCONE Workers. You can change the number of workers in config/scone_config.toml and docker-compose-scone-avalon.yaml files. In basic demo there are 5 SCONE workers which have some pre-existing examples too. 
 
-## RUN in SIM Mode
-
-- To run the in Simulation Mode or without Intel hardware, get the latest code from 'no-cas-fs-unprotected' branch:
-
-  ```bash
-  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
-  ```
-
-- To run the in Simulation Mode, you can run docker-compose-scone-sim.yaml from the project root directory:
-
-  ```bash
-  docker-compose -f docker-compose-scone-sim.yaml up --build
-  docker-compose -f docker-compose-scone-sim.yaml down -v
-  ```
-
-## RUN without Intel SGX
-
-- To run the in Simulation Mode or without Intel hardware, get the latest code from 'no-cas-fs-unprotected' branch:
-
-  ```bash
-  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
-  ```
-
-- To run the without Intel SGX, you can run docker-compose-scone.yaml from the project root directory:
-
-  ```bash
-  docker-compose -f docker-compose-scone.yaml up --build
-  docker-compose -f docker-compose-scone.yaml down -v
-  ```
 
 ### Examples
 
 See Examples and detailed usage in [Worker Readme](avalon-scone/README.md)
 
-# Building Hyperledger Avalon Without SCONE
+# Building Hyperledger Avalon Without SCONE (Intel SDK, Graphene)
 
 In order to build, install, and run Hyperledger Avalon
 a number of additional components must be installed and configured.
