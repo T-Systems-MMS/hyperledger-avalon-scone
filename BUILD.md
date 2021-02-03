@@ -48,7 +48,7 @@ The following instructions will guide you through the installation of [ _SCONE_]
   git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
   ```
 
-- To run the in Simulation Mode, you can run docker-compose-scone-sim.yaml from the project root directory:
+- To run the in Unsecure Hardware Mode, you can run docker-compose-scone-hw.yaml from the project root directory:
 
   ```bash
   docker-compose -f docker-compose-scone-hw.yaml up --build

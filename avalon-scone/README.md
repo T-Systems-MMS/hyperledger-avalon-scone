@@ -50,35 +50,56 @@ This example demonstrates a hospital app running inside SCONE based trusted exec
 
 This app has a redis data store and python backend. We use SCONE curated redis and python containers and run both inside trusted enclaves and then integrate this app with our trusted workers so that it can be used with Avalon ecosystem and also with blockchains.
 
-## Building and Running the worker without SCONE or SCONE SIM Mode
+## Building and Running the workers for testing (1) without SCONE/Intel SGX (2) SCONE SIM Mode (3) Unsecure Hardware Mode 
 
-- For SIM Mode we need to install Intel SGX driver and SCONE. (Skip this step if you are running without Intel SGX)
+### RUN without Intel SGX
 
-  - To install Intel SGX driver please refer https://github.com/hyperledger/avalon/blob/master/PREREQUISITES.md#intel-sgx-in-hardware-mode
-  - To install SCONE please refer https://sconedocs.github.io/installation/
+- To run the code for testing without Intel SGX, get the latest code from 'no-cas-fs-unprotected' branch:
 
-- To build Avalon SCONE worker get the latest code from 'no-cas-fs-unprotected' branch:
-  
   ```bash
   git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
   ```
-- To run without Intel SGX hardware and SCONE, you can run docker-compose-scone.yaml from the project root directory:
+
+- You can run docker-compose-scone.yaml from the project root directory:
 
   ```bash
   docker-compose -f docker-compose-scone.yaml up --build
   docker-compose -f docker-compose-scone.yaml down -v
   ```
 
-- To run with SCONE SIM mode, you can run docker-compose-scone-sim.yaml from the project root directory:
+### RUN in SCONE SIM Mode
+
+- To run the in SCONE Simulation Mode, get the latest code from 'no-cas-fs-unprotected' branch:
+
+  ```bash
+  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
+  ```
+
+- To run the in Simulation Mode, you can run docker-compose-scone-sim.yaml from the project root directory:
 
   ```bash
   docker-compose -f docker-compose-scone-sim.yaml up --build
   docker-compose -f docker-compose-scone-sim.yaml down -v
   ```
 
+### RUN in SCONE Hardware Mode with No Network and File System Shields (Unsecure)
+
+- To run the in simplified SCONE Hardware Mode, get the latest code from 'no-cas-fs-unprotected' branch:
+
+  ```bash
+  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
+  ```
+
+- To run the in Unsecure Hardware Mode, you can run docker-compose-scone-hw.yaml from the project root directory:
+
+  ```bash
+  docker-compose -f docker-compose-scone-hw.yaml up --build
+  docker-compose -f docker-compose-scone-hw.yaml down -v
+  ```
+
   This will create 5 worker containers registered with Avalon Manager waiting for the requests.
 
-### Test SCONE worker using Avalon
+### Test SCONE worker bootstrapped above using Avalon
 
 - To send work orders to SCONE worker we can use [generic client](https://github.com/T-Systems-MMS/hyperledger-avalon-scone/blob/no-cas-fs-unprotected/examples/apps/generic_client/generic_client.py) application. Execute following commands:
 
@@ -108,7 +129,7 @@ This app has a redis data store and python backend. We use SCONE curated redis a
 
 - Openvino and Hospital apps are only available in hardware mode as they need CAS interaction.
 
-## Building and Running the worker in SCONE Hardware Mode
+## Building and Running the worker in SCONE Hardware Mode with File System and Network Shields enabled by SCONE CAS (Secure)
 
 - Before building and running application for SCONE HW Mode, we need to install Intel SGX driver and SCONE.
 
@@ -128,7 +149,7 @@ This app has a redis data store and python backend. We use SCONE curated redis a
   ```
   This will create 5 worker containers registered with Avalon Manager waiting for the requests.
 
-### Test SCONE worker using Avalon
+### Test SCONE workers in secure mode using Avalon
 
 - To send work orders to SCONE worker we can use [scone generic client](https://github.com/T-Systems-MMS/hyperledger-avalon-scone/blob/main/examples/scone_apps/generic_client_scone.py) application. Execute following commands:
 
