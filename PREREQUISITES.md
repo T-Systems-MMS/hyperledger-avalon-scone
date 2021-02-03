@@ -15,6 +15,7 @@ This document describes how to get and compile these required components.
 - [Required Packages](#packages)
 - [Environment Variables](#environment)
 - [Docker](#docker)
+- [SCONE](#scone)
 - [Intel&reg; Software Guard Extensions (Intel SGX)](#sgx)
 - [OpenSSL](#openssl)
 - [Intel SGX OpenSSL](#sgxssl)
@@ -128,6 +129,16 @@ https://docs.docker.com/engine/installation/linux/ubuntu
 and
 https://docs.docker.com/compose/install/#install-compose
 
+# <a name="scone"></a>SCONE
+- In order to build, install, and run Hyperledger Avalon with SCONE, SCONE must be installed and configured.
+- The following instructions will guide you through the installation of [ _SCONE_](https://sconedocs.github.io/installation/)
+- After correct installation of SCONE, access to SCONE images is required, SCONE uses gitlab as their docker images directory.
+- Register at [https://gitlab.scontain.com](https://gitlab.scontain.com) and then request access for SCONE images in community version.
+- Login using gitlab credentials 
+	```
+	docker login registry.scontain.com:5050
+	```
+- After successful login you can access the SCONE images required for Hyperledger Avalon and test the workflows.
 
 # <a name="sgx"></a>Intel&reg; Software Guard Extensions (Intel SGX)
 Hyperledger Avalon is intended to be run on
