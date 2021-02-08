@@ -58,7 +58,13 @@ For demo of the applications running with SCONE workers, see
 
 ## Building
 
-To build Hyperledger Avalon, follow instructions in the
+- Branch **main** represents the code of workers in SCONE Secure Hw Mode with public CAS run by scontain team.
+- Branch **no-cas-fs-unprotected** represents the code of workers (1) without SCONE (2) SCONE Sim Mode (3) SCONE Unsecure Hw Mode 
+- Branch **private-cas-fs-protected** represents the code of workers in SCONE Secure Hw Mode with private CAS in the cluster. 
+
+_CAS image is not available in SCONE free tier, hence the user must upgrade to Standard or Business edition if private CAS is desired in the cluster._
+
+To build Hyperledger Avalon with SCONE, follow instructions in the
 [build document](BUILD.md).
 
 ## Documentation
