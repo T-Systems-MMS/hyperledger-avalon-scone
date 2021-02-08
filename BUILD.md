@@ -4,8 +4,11 @@ https://creativecommons.org/licenses/by/4.0/
 -->
 # Building Hyperledger Avalon With SCONE Workers
 
-- Branch 'main' represents the code of workers in SCONE Secure Hw Mode 
-- Branch 'no-cas-fs-unprotected' represents the code of workers (1) without SCONE (2) SCONE Sim Mode (3) SCONE Unsecure Hw Mode 
+- Branch **main** represents 'public-cas-fs-protected' i.e. the code of workers in SCONE Secure Hw Mode with public CAS run by scontain team.
+- Branch **no-cas-fs-unprotected** represents the code of workers (1) without SCONE (2) SCONE Sim Mode (3) SCONE Unsecure Hw Mode 
+- Branch **private-cas-fs-protected** represents the code of workers in SCONE Secure Hw Mode with private CAS in the cluster. 
+
+_CAS image is not available in SCONE free tier, hence the user must upgrade to Standard or Business edition if private CAS is desired in the cluster._
 
 ## Install and Access SCONE
 
@@ -19,52 +22,7 @@ https://creativecommons.org/licenses/by/4.0/
 	```
 - After successful login you can access the SCONE images required for Hyperledger Avalon and test the workflows.
 
-## RUN without Intel SGX
-
-- To run the code for testing without Intel SGX, get the latest code from 'no-cas-fs-unprotected' branch:
-
-  ```bash
-  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
-  ```
-
-- You can run docker-compose-scone.yaml from the project root directory:
-
-  ```bash
-  docker-compose -f docker-compose-scone.yaml up --build
-  docker-compose -f docker-compose-scone.yaml down -v
-  ```
-
-## RUN in SIM Mode
-
-- To run the in SCONE Simulation Mode, get the latest code from 'no-cas-fs-unprotected' branch:
-
-  ```bash
-  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
-  ```
-
-- To run the in Simulation Mode, you can run docker-compose-scone-sim.yaml from the project root directory:
-
-  ```bash
-  docker-compose -f docker-compose-scone-sim.yaml up --build
-  docker-compose -f docker-compose-scone-sim.yaml down -v
-  ```
-
-## RUN in Hardware Mode with No Network and File System Shields (Unsecure)
-
-- To run the in simplified SCONE Hardware Mode, get the latest code from 'no-cas-fs-unprotected' branch:
-
-  ```bash
-  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b no-cas-fs-unprotected
-  ```
-
-- To run the in Unsecure Hardware Mode, you can run docker-compose-scone-hw.yaml from the project root directory:
-
-  ```bash
-  docker-compose -f docker-compose-scone-hw.yaml up --build
-  docker-compose -f docker-compose-scone-hw.yaml down -v
-  ```
-
-## RUN in Hardware Mode with File System and Network Shields enabled by SCONE CAS (Secure)
+## RUN in Hardware Mode with File System and Network Shields enabled by public SCONE CAS (Secure)
 
 - To run the in Secure Hardware Mode, get the latest code from master branch:
 
