@@ -38,6 +38,8 @@ Developers can add any python based workload that would execute in scone based t
 
 - Secure Discounted Transaction: It is a demo of real-world use case of coins transfer from one wallet to another wallet. Since the execution of smart contracts is not private and the code written in smart contract is also visible to everybody, it is not possible to provide variable discounts to different customers without the other customers knowing about it. But in trusted execution the discount can be provided with each transaction to each customer without anyone knowing about it, other than the two parties involved. This workload can be integrated with smart contracts using blockchain connectors to enable trusted private secure transactions. 
 
+_**Note:** External apps like **Openvino** and **Hospital app** are only available in 'private-cas-fs-protected' branch as they need private CAS inside the cluster to complete their workflow_
+
 ## Building and Running the workers for testing (1) without SCONE/Intel SGX (2) SCONE SIM Mode (3) Unsecure Hardware Mode 
 
 ### RUN without Intel SGX
@@ -113,10 +115,8 @@ Developers can add any python based workload that would execute in scone based t
 
      `./generic_client.py --uri "http://avalon-listener:1947" -w "scone-worker-1" --workload_id "secure-transaction" --in_data "100 100 50 50" -o`
 
-     This input format is (sender_balance, receiver_balance, transfer_amount, discount) If everything goes fine, then you should see the updated balances of sender and receiver.
-
-- Openvino and Hospital apps are only available in hardware mode as they need CAS interaction.
-
+     The input format is (sender_balance, receiver_balance, transfer_amount, discount) If everything goes fine, then you should see the updated balances of sender and receiver.
+    
 ## Adding a new Python Workload
 
 - Avalon Python worker supports two sample workloads: "python-hello" and "python-fib".

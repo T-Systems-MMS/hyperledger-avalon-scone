@@ -4,11 +4,11 @@ https://creativecommons.org/licenses/by/4.0/
 -->
 # Building Hyperledger Avalon With SCONE Workers
 
-- Branch **main** represents the code of workers in SCONE Secure Hw Mode with public CAS run by scontain team.
+- Branch **main** represents 'public-cas-fs-protected' i.e. the code of workers in SCONE Secure Hw Mode with public CAS run by scontain team.
 - Branch **no-cas-fs-unprotected** represents the code of workers (1) without SCONE (2) SCONE Sim Mode (3) SCONE Unsecure Hw Mode 
 - Branch **private-cas-fs-protected** represents the code of workers in SCONE Secure Hw Mode with private CAS in the cluster. 
 
-_CAS image is not available in SCONE free tier, hence the user must upgrade to Standard or Business edition if private CAS is desired in the cluster._
+_**Note:** CAS image is not available in SCONE free tier, hence the user must upgrade to Standard or Business edition if private CAS is desired in the cluster._
   
 ## Install and Access SCONE
 
