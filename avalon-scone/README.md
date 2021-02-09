@@ -50,7 +50,7 @@ This example demonstrates a hospital app running inside SCONE based trusted exec
 
 This app has a redis data store and python backend. We use SCONE curated redis and python containers and run both inside trusted enclaves and then integrate this app with our trusted workers so that it can be used with Avalon ecosystem and also with blockchains.
 
-## Building and Running the worker in SCONE Hardware Mode with File System and Network Shields enabled by SCONE CAS (Secure)
+## Building and Running the worker in SCONE Hardware Mode with File System and Network Shields enabled by private SCONE CAS (Secure)
 
 - Before building and running application for SCONE HW Mode, we need to install Intel SGX driver and SCONE.
 
@@ -60,7 +60,7 @@ This app has a redis data store and python backend. We use SCONE curated redis a
 - To build Avalon SCONE worker get the latest code from master branch:
 
   ```bash
-  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git
+  git clone https://github.com/T-Systems-MMS/hyperledger-avalon-scone.git -b private-cas-fs-protected
   ```
 
 - To run the in Hardware Mode, you can run scone-demo.sh script from the project root directory:
@@ -96,27 +96,27 @@ This app has a redis data store and python backend. We use SCONE curated redis a
 
      `./generic_client_scone.py --uri "http://avalon-listener:1947" -w "scone-worker-1" --workload_id "secure-transaction" --in_data "100 100 50 50" -o`
 
-     This input format is (sender_balance, receiver_balance, transfer_amount, discount) If everything goes fine, then you should see the updated balances of sender and receiver.
+     The input format is (sender_balance, receiver_balance, transfer_amount, discount) If everything goes fine, then you should see the updated balances of sender and receiver.
 
   6. Send work order request with *"scone-openvino"* workload id to SCONE worker *"scone-worker-1"* 
 
      `./generic_client_scone.py --uri "http://avalon-listener:1947" -w "scone-worker-1" --workload_id "scone-openvino" --in_data "car1.jpg" -o`
 
-     This input 'car1.jpg' is name of one of the hardcoded input images provided in openvino container. If everything goes fine, then you should see the message asking you to check output in openvino application output folder. 
+     The input 'car1.jpg' is name of one of the hardcoded input images provided in openvino container. If everything goes fine, then you should see the message asking you to check output in openvino application output folder. 
 
   7. Send work order request with *"scone-hospital-app"* workload id to SCONE worker *"scone-worker-1"* 
 
      `./generic_client_scone.py --uri "http://avalon-listener:1947" -w "scone-worker-1" --workload_id "scone-hospital-app" --in_data "method=add_patient&id=patient_1&fname=Jane&lname=Doe&address='123 Main Street'&city=Richmond&state=Washington&ssn=123-223-2345&email=nr@aaa.com&dob=01/01/2010&contactphone=123-234-3456&drugallergies='Sulpha, Penicillin, Tree Nut'&preexistingconditions='diabetes, hypertension, asthma'&dateadmitted=01/05/2010&insurancedetails='Primera Blue Cross'" -o`
 
-     This input is patient object in query parameters format along with method name 'add_patient'. If everything goes fine, then you should see added patient data echoed back. 
+     The input is patient object in query parameters format along with method name 'add_patient'. If everything goes fine, then you should see added patient data echoed back. 
 
      `./generic_client_scone.py --uri "http://avalon-listener:1947" -w "scone-worker-1" --workload_id "scone-hospital-app" --in_data "method=get_patient&id=patient_1" -o`
 
-     This input is patient id along with method name 'get_patient'. If everything goes fine, then you should see added patient data echoed back. 
+     The input is patient id along with method name 'get_patient'. If everything goes fine, then you should see added patient data echoed back. 
 
      `./generic_client_scone.py --uri "http://avalon-listener:1947" -w "scone-worker-1" --workload_id "scone-hospital-app" --in_data "method=get_patient_score&id=patient_1" -o`
 
-     This input is patient id along with method name 'get_patient_score'. If everything goes fine, then you should see the patients health score as per hospital records. 
+     The input is patient id along with method name 'get_patient_score'. If everything goes fine, then you should see the patients health score as per hospital records. 
 
 
 ## Adding a new Python Workload
