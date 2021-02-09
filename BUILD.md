@@ -22,7 +22,7 @@ _CAS image is not available in SCONE free tier, hence the user must upgrade to S
 	```
 - After successful login you can access the SCONE images required for Hyperledger Avalon and test the workflows.
 
-## RUN in Hardware Mode with File System and Network Shields enabled by public SCONE CAS (Secure)
+## RUN in Hardware Mode with File System and Network Shields enabled by SCONE CAS (Secure)
 
 - To run the in Secure Hardware Mode, get the latest code from master branch:
 
@@ -36,7 +36,7 @@ _CAS image is not available in SCONE free tier, hence the user must upgrade to S
   ./scone-demo.sh start
   ./scone-demo.sh stop
   ```
-  It automatically starts SCONE CAS and LAS, then it creates images for SCONE KME and SCONE Workers. You can change the number of workers in config/scone_config.toml and docker-compose-scone-avalon.yaml files. In basic demo there are 5 SCONE workers which have some pre-existing examples too. 
+  It automatically starts SCONE CAS and LAS, then it creates images for SCONE KME and SCONE Workers. You can change the number of workers in config/scone_config.toml and docker-compose-scone-avalon.yaml files. In basic demo there are 3 SCONE workers which have some pre-existing examples too. 
 
 
 ### Examples

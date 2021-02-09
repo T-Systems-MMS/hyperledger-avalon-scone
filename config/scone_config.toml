@@ -20,9 +20,9 @@ remote_url = "http://localhost:9090"
 # CAS -- SCONE CONFIGURATION AND ATTESTATION SERVICE
 # --------------------------------------------------
 [CAS]
-scone_cas_alias = "cas"
+scone_cas_alias = "4-2-1.scone-cas.cf"
 scone_cas_port = "8081"
-scone_cas_mr_enclave = "309e23ffab10255e7332c92b230d2208dcbc5db0408c3af26093c830033bc2e4"
+scone_cas_mr_enclave = "4cd0fe54d3d8d787553b7dac7347012682c402220acd062e4d0da3bbe10a1c2c"
 
 # --------------------------------------------------
 # Logging -- configuration of service logging
@@ -46,14 +46,13 @@ hospital_app_session = "hospital-app-scone"
 # -------------------------------------------------------------------
 [EnclaveManager]
 # configurations for asynchronous work load execution
-sleep_interval = "5"
+sleep_interval = "3"
 # configurations for synchronous Work load execution
 # zmq_port is the port used for zmq socket communication
 # Port for socket interaction with listener
 zmq_port = '5555'
 # Scone worker url. Scone worker uses ZMQ for communication
 scone_zmq_url_template = "tcp://scone-worker-n:7777"
-mrenclave_worker= "c9f7c9d89a1ff120a78a27cf0c9c2f572f0c7df7553cafea5de5b7a78bdc4718"
 scone_kme_alias = "scone-kme"
 scone_kme_port = "5000"
 
@@ -67,7 +66,7 @@ scone_kme_port = "5000"
 # subscription to run TCS in Intel SGX HW mode.
 spid = "DEADBEEF00000000DEADBEEF00000000"
 
-num_of_enclaves = "5"
+num_of_enclaves = "3"
 
 # ias_url is the URL of the Intel Attestation Service (IAS) server.
 ias_url = "https://api.trustedservices.intel.com/sgx/dev"

@@ -54,6 +54,7 @@ avalon-scone/client.crt
 avalon-scone/kme_session.yml
 avalon-scone/Dockerfile-scone-kme
 avalon-scone/Dockerfile-scone-worker
+avalon-scone/myenv
 tc/sgx/common/build/
 tc/sgx/trusted_worker_manager/enclave/build/
 tc/sgx/trusted_worker_manager/enclave/deps/

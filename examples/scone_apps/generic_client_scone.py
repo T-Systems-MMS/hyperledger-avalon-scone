@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 # Copyright 2019 Intel Corporation
+# Copyright 2019 Mujtaba Idrees
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -256,8 +257,15 @@ def _do_worker_verification_cas(worker_data, worker_id_hex):
         f.write(ca_cert)
         f.close()
 
+        # It is assumed that KME session at CAS is publically known, it serves as the base of trust
+        # A request is made to CAS based fetching the public certs for KME session
+        # Request is sent to KME using those certs
+        # In this case fetch the KME session (randomized for public CAS) from env variables set in docker-compose of avalon-shell
+        scone_kme_session=os.environ["KME_SESSION"] 
+        logger.info("KME session name : %s", scone_kme_session)
+
         # Getting CAS generated SSL certs for KME so we can establish tls connection with KME
-        res=requests.get(scone_cas_url+'/v1/values/session='+scone_kme_alias, verify='ca_cert.pem')
+        res=requests.get(scone_cas_url+'/v1/values/session='+scone_kme_session, verify='ca_cert.pem')
         cert_json = json.loads(res.text)
         f = open("kme_cert.pem", "w")
         f.write(cert_json['values']['api_ca_cert']['value'])
@@ -270,11 +278,11 @@ def _do_worker_verification_cas(worker_data, worker_id_hex):
         valid_workers=json.loads(res.text)
         worker_match=False
         valid_matched_worker=""
-        for valid_worker_id in valid_workers:
-            valid_worker_id_hex=hex_utils.get_worker_id_from_name(valid_worker_id)
+        for valid_worker_obj in valid_workers:
+            valid_worker_id_hex=hex_utils.get_worker_id_from_name(valid_worker_obj.get('worker_id'))
             if valid_worker_id_hex == worker_id_hex:
-                logger.info("%s is found in KME valid workers list", valid_worker_id)
-                valid_matched_worker=valid_worker_id
+                logger.info("%s is found in KME valid workers list", valid_worker_obj.get('worker_id'))
+                valid_matched_worker=valid_worker_obj.get('worker_session_id')
                 worker_match=True
                 break
         

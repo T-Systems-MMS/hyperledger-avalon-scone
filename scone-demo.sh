@@ -27,31 +27,20 @@ if [ "$1" == "start" ]; then
 	echo "Starting Scone CAS and LAS containers"
 
 	docker-compose -f docker-compose-scone-baseline.yaml up -d
+	sleep 5
 
 	echo "Creating Scone Workers and KME Images with Encrypted FS"
 
 	cd avalon-scone
 
 	./create_image.sh
+	source myenv
 
 	cd ..
 
 	echo "Starting Avalon Scone containers"
 
 	docker-compose -f docker-compose-scone-avalon.yaml up --build -d
-
-	cd examples/scone_apps/openvino
-
-	echo "Starting openvino app containers"
-
-	docker-compose -f docker-compose-openvino.yaml up -d
-
-	cd ../hospital_app/
-
-	echo "Starting hospital app containers"
-
-	./hospital_app.sh start
-
 
 	echo "Done"
 	exit
@@ -60,20 +49,6 @@ fi
 
 if [ "$1" == "stop" ]; then
 
-	cd examples/scone_apps/openvino
-
-	echo "Stopping openvino app containers"
-
-	docker-compose -f docker-compose-openvino.yaml down -v
-
-	cd ../hospital_app/
-
-	echo "Stopping hospital app containers"
-
-	./hospital_app.sh stop
-
-	cd ../../../
-
 	echo "Stopping Avalon Scone containers"
 
 	docker-compose -f docker-compose-scone-avalon.yaml down -v
@@ -81,7 +56,6 @@ if [ "$1" == "stop" ]; then
 	echo "Stopping Scone CAS and LAS containers"
 
 	docker-compose -f docker-compose-scone-baseline.yaml down -v
-
 
 	echo "Done"
 	exit

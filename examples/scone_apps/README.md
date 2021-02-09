@@ -68,7 +68,7 @@ This app has a redis data store and python backend. We use SCONE curated redis a
   ./scone-demo.sh start
   ./scone-demo.sh stop
   ```
-  This will create 5 worker containers registered with Avalon Manager waiting for the requests.
+  This will create 3 worker containers registered with Avalon Manager waiting for the requests.
 
 ### Test SCONE workers in secure mode using Avalon
 

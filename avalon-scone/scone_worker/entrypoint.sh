@@ -1,3 +1,5 @@
+#!/bin/ash
+
 # Copyright 2020 Mujtaba Idrees
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM sconecuratedimages/crosscompilers:runtime-alpine3.7-scone4
-RUN apk add openssl && apk add curl
-COPY session_uploader .
-ENTRYPOINT tail -f /dev/null
+kme_api_url="https://scone-kme:5000/scone_worker_session/"
+
+while true ; do
+	result=$(curl -k -s $kme_api_url$1)
+	if [[ ${#result} -gt 0 ]] ; then
+		echo "Worker is starting!"
+		SCONE_MODE=HW SCONE_ALPINE=1 SCONE_VERSION=1 SCONE_HEAP=4G SCONE_ALLOW_DLOPEN=1 SCONE_CONFIG_ID=$result/avalon-scone-worker-session python3
+		exit 0
+	fi
+    sleep 2
+done

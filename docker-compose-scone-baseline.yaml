@@ -21,31 +21,31 @@ networks:
     name: avalon-network
 
 services:
-  cas:
-    container_name: scone-cas
-    image: registry.scontain.com:5050/sconecuratedimages/services:cas.trust.group-out-of-date-scone4.2.1
-    command: sh -c "SCONE_HEAP=1G cas -c /etc/cas/cas.toml"
-    environment:
-      - SCONE_LOG=7
-      - SCONE_MODE=HW
-    devices:
-      - "/dev/isgx:/dev/isgx"
-    ports:
-      - target: 8081
-        protocol: tcp
-        mode: host
-        published: 8082
-      - target: 18765
-        protocol: tcp
-        mode: host
-    depends_on:
-      - las
-    networks:
-      - avalon-network
+#  cas:
+#    container_name: scone-cas
+#    image: registry.scontain.com:5050/sconecuratedimages/services:cas.trust.group-out-of-date-scone4.2.1
+#    command: sh -c "SCONE_HEAP=1G cas -c /etc/cas/cas.toml"
+#    environment:
+#      - SCONE_LOG=7
+#      - SCONE_MODE=HW
+#    devices:
+#      - "/dev/isgx:/dev/isgx"
+#    ports:
+#      - target: 8081
+#        protocol: tcp
+#        mode: host
+#        published: 8082
+#      - target: 18765
+#        protocol: tcp
+#        mode: host
+#    depends_on:
+#      - las
+#    networks:
+#      - avalon-network
 
   las:
     container_name: scone-las
-    image: registry.scontain.com:5050/sconecuratedimages/services:las-scone4.2.1
+    image: registry.scontain.com:5050/sconecuratedimages/kubernetes:las-scone4.2.1
     environment:
       - SCONE_LOG=7
       - SCONE_MODE=HW

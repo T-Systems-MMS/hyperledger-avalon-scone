@@ -1,4 +1,4 @@
-# Copyright 2019 Intel Corporation
+# Copyright 2019 Mujtaba Idrees
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -61,35 +61,5 @@ services:
       - ./output:/output
     command: |
       ash -c "ash script.sh openvino-scone-worker-3"
-    networks:
-         - avalon-network
-
-  openvino-scone-worker-4:
-    container_name: openvino-scone-worker-4
-    image: scone-openvino-dev
-    build:
-      context: .
-      dockerfile: Dockerfile-sconecurated-openvino
-    devices:
-      - "/dev/isgx:/dev/isgx"
-    volumes:
-      - ./output:/output
-    command: |
-      ash -c "ash script.sh openvino-scone-worker-4"
-    networks:
-         - avalon-network
-
-  openvino-scone-worker-5:
-    container_name: openvino-scone-worker-5
-    image: scone-openvino-dev
-    build:
-      context: .
-      dockerfile: Dockerfile-sconecurated-openvino
-    devices:
-      - "/dev/isgx:/dev/isgx"
-    volumes:
-      - ./output:/output
-    command: |
-      ash -c "ash script.sh openvino-scone-worker-5"
     networks:
          - avalon-network

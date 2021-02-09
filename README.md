@@ -64,7 +64,7 @@ For demo of the applications running with SCONE workers, see
 
 _CAS image is not available in SCONE free tier, hence the user must upgrade to Standard or Business edition if private CAS is desired in the cluster._
 
-To build Hyperledger Avalon, follow instructions in the
+To build Hyperledger Avalon with SCONE, follow instructions in the
 [build document](BUILD.md).
 
 ## Documentation
