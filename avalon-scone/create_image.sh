@@ -46,6 +46,8 @@ export SCONE_CAS_EXTERNAL_ADDR="localhost:8082"
 export SCONE_CAS_ADDR="cas"
 export DEVICE="/dev/sgx"
 export KME_ALIAS="scone-kme"
+#export KME_SESSION_NAME="scone-kme-$RANDOM-$RANDOM-$RANDOM"
+export KME_SESSION_NAME="scone-kme"
 export AVALON_NETWORK="avalon-network"
 export CAS_MRENCLAVE="309e23ffab10255e7332c92b230d2208dcbc5db0408c3af26093c830033bc2e4"
 export SCONE_RUNTIME_IMAGE="registry.scontain.com:5050/sconecuratedimages/crosscompilers:runtime-alpine3.7-scone4"
@@ -125,6 +127,7 @@ ENV LD_LIBRARY_PATH="/project/custom-libressl/lib/:/project/custom-libffi/lib"
 ENV PATH="\$PATH:/project/custom-python/bin:/project/custom-python/lib:/project/muslusr/lib"
 ENV PYTHONHOME=/project/custom-python
 ENV TCF_HOME=/project/avalon
+ENV SCONE_CAS_ADDR=$SCONE_CAS_ADDR
 WORKDIR /project/avalon
 EOF
 
@@ -134,18 +137,25 @@ docker build -f Dockerfile-scone-kme -t $KME_IMAGE_NAME .
 # creating lightweight Dockerfile for Worker by copying FS created in previous step
 cat > Dockerfile-scone-worker <<EOF
 FROM $SCONE_RUNTIME_IMAGE
-COPY scone_worker/wait-for.sh /wait-for.sh
+COPY scone_worker/entrypoint.sh /entrypoint.sh
 COPY worker-fs/protected-files /project
 ENV LD_LIBRARY_PATH="/project/custom-libressl/lib/:/project/custom-libffi/lib:/project/muslusr/lib"
 ENV PATH="\$PATH:/project/custom-python/bin:/project/custom-python/lib:/project/muslusr/lib"
 ENV PYTHONHOME=/project/custom-python
 ENV TCF_HOME=/project/avalon
+ENV SCONE_CAS_ADDR=$SCONE_CAS_ADDR
 RUN apk add curl
 WORKDIR /project/avalon
 EOF
 
 # create a image with encrypted scone worker code and authenticated libraries
 docker build -f Dockerfile-scone-worker -t $WORKER_IMAGE_NAME .
+
+export KME_MREnclave=$(docker run --device=/dev/isgx -it avalon-scone-kme-dev sh -c "SCONE_MODE=HW SCONE_HASH=1 SCONE_ALPINE=1 SCONE_VERSION=1 SCONE_HEAP=4G SCONE_ALLOW_DLOPEN=1 python3") 
+export Worker_MREnclave=$(docker run --device=/dev/isgx -it avalon-scone-worker-dev sh -c "SCONE_MODE=HW SCONE_HASH=1 SCONE_ALPINE=1 SCONE_VERSION=1 SCONE_HEAP=4G SCONE_ALLOW_DLOPEN=1 python3")
+
+export KME_MREnclave=`echo $KME_MREnclave | sed 's/\\r//g'`
+export Worker_MREnclave=`echo $Worker_MREnclave | sed 's/\\r//g'`
 
 
 # ensure that we have self-signed client certificate
@@ -166,13 +176,13 @@ export WORKER_SCONE_FSPF_TAG=$(cat $(pwd)/worker-fs/native-files/keytag | awk '{
 
 echo "Writing session file"
 cat > kme_session.yml <<EOF
-name: $KME_ALIAS
+name: $KME_SESSION_NAME
 version: "0.3"
 
 services:
   - name: certificate-generation
     image_name: kme_image
-    mrenclaves: [c9f7c9d89a1ff120a78a27cf0c9c2f572f0c7df7553cafea5de5b7a78bdc4718]
+    mrenclaves: [$KME_MREnclave]
     command: python3 key_manager.py
     environment:
       TCF_HOME: "/project/avalon"
@@ -180,6 +190,7 @@ services:
       LD_LIBRARY_PATH: "/project/custom-libressl/lib/:/project/custom-libffi/lib"
       WORKER_FS_KEY: "$WORKER_SCONE_FSPF_KEY"
       WORKER_FS_TAG: "$WORKER_SCONE_FSPF_TAG"
+      WORKER_MRENCLAVE: "$Worker_MREnclave"
     pwd: /project/avalon
     fspf_tag: $KME_SCONE_FSPF_TAG
     fspf_key: $KME_SCONE_FSPF_KEY
@@ -219,6 +230,10 @@ security:
     tolerate: [debug-mode, hyperthreading, insecure-igpu, outdated-tcb]
     ignore_advisories: "*"
 
+EOF
+
+cat > myenv << EOF
+export KME_SESSION_NAME="$KME_SESSION_NAME"
 EOF
 
 curl -v -s --cacert cas-ca.pem --cert client.crt  --key client-key.key  --data-binary @kme_session.yml -X POST https://$SCONE_CAS_EXTERNAL_ADDR/session

@@ -271,11 +271,11 @@ def _do_worker_verification_cas(worker_data, worker_id_hex):
         valid_workers=json.loads(res.text)
         worker_match=False
         valid_matched_worker=""
-        for valid_worker_id in valid_workers:
-            valid_worker_id_hex=hex_utils.get_worker_id_from_name(valid_worker_id)
+        for valid_worker_obj in valid_workers:
+            valid_worker_id_hex=hex_utils.get_worker_id_from_name(valid_worker_obj.get('worker_id'))
             if valid_worker_id_hex == worker_id_hex:
-                logger.info("%s is found in KME valid workers list", valid_worker_id)
-                valid_matched_worker=valid_worker_id
+                logger.info("%s is found in KME valid workers list", valid_worker_obj.get('worker_id'))
+                valid_matched_worker=valid_worker_obj.get('worker_session_id')
                 worker_match=True
                 break
         

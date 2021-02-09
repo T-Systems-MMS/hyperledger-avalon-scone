@@ -4,7 +4,7 @@ https://creativecommons.org/licenses/by/4.0/
 -->
 # Building Hyperledger Avalon With SCONE Workers
 
-- Branch **main** represents the code of workers in SCONE Secure Hw Mode with public CAS run by scontain team.
+- Branch **main** represents 'public-cas-fs-protected' i.e. the code of workers in SCONE Secure Hw Mode with public CAS run by scontain team.
 - Branch **no-cas-fs-unprotected** represents the code of workers (1) without SCONE (2) SCONE Sim Mode (3) SCONE Unsecure Hw Mode 
 - Branch **private-cas-fs-protected** represents the code of workers in SCONE Secure Hw Mode with private CAS in the cluster. 
 
@@ -36,7 +36,7 @@ _CAS image is not available in SCONE free tier, hence the user must upgrade to S
   ./scone-demo.sh start
   ./scone-demo.sh stop
   ```
-  It automatically starts SCONE CAS and LAS, then it creates images for SCONE KME and SCONE Workers. You can change the number of workers in config/scone_config.toml and docker-compose-scone-avalon.yaml files. In basic demo there are 5 SCONE workers which have some pre-existing examples too. 
+  It automatically starts SCONE CAS and LAS, then it creates images for SCONE KME and SCONE Workers. You can change the number of workers in config/scone_config.toml and docker-compose-scone-avalon.yaml files. In basic demo there are 3 SCONE workers which have some pre-existing examples too. 
 
 
 ### Examples

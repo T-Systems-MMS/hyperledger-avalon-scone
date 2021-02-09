@@ -27,12 +27,14 @@ if [ "$1" == "start" ]; then
 	echo "Starting Scone CAS and LAS containers"
 
 	docker-compose -f docker-compose-scone-baseline.yaml up -d
+	sleep 5
 
 	echo "Creating Scone Workers and KME Images with Encrypted FS"
 
 	cd avalon-scone
 
 	./create_image.sh
+	source myenv
 
 	cd ..
 

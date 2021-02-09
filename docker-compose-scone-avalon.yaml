@@ -145,7 +145,7 @@ services:
 # It should also be updated in scone_config.toml file if it is updated
     command: |
       bash -c "
-         SCONE_MODE=HW SCONE_ALPINE=1 SCONE_VERSION=1 SCONE_HEAP=4G SCONE_ALLOW_DLOPEN=1 SCONE_CONFIG_ID=scone-kme/certificate-generation python3
+         SCONE_MODE=HW SCONE_ALPINE=1 SCONE_VERSION=1 SCONE_HEAP=4G SCONE_ALLOW_DLOPEN=1 SCONE_CONFIG_ID=$KME_SESSION_NAME/certificate-generation python3
       "
 #    command: |
 #      bash -c "tail -f /dev/null"
@@ -169,7 +169,7 @@ services:
     # Pass ZMQ URL to listen for requests. Bind to all available interfaces.
     command: |
       bash -c "
-         bash /wait-for.sh https://cas:8081/v1/values/session=scone-worker-1 -- echo "Ready" && SCONE_MODE=HW SCONE_ALPINE=1 SCONE_VERSION=1 SCONE_HEAP=4G SCONE_ALLOW_DLOPEN=1 SCONE_CONFIG_ID=scone-worker-1/avalon-scone-worker-session python3
+         bash /entrypoint.sh scone-worker-1
       "
 #    command: |
 #      bash -c "
@@ -199,7 +199,7 @@ services:
     # Pass ZMQ URL to listen for requests. Bind to all available interfaces.
     command: |
       bash -c "
-         bash /wait-for.sh https://cas:8081/v1/values/session=scone-worker-2 -- echo "Ready" && SCONE_MODE=HW SCONE_ALPINE=1 SCONE_VERSION=1 SCONE_HEAP=4G SCONE_ALLOW_DLOPEN=1 SCONE_CONFIG_ID=scone-worker-2/avalon-scone-worker-session python3
+         bash /entrypoint.sh scone-worker-2
       "
 #    command: |
 #      bash -c "
@@ -229,7 +229,7 @@ services:
     # Pass ZMQ URL to listen for requests. Bind to all available interfaces.
     command: |
       bash -c "
-         bash /wait-for.sh https://cas:8081/v1/values/session=scone-worker-3 -- echo "Ready" && SCONE_MODE=HW SCONE_ALPINE=1 SCONE_VERSION=1 SCONE_HEAP=4G SCONE_ALLOW_DLOPEN=1 SCONE_CONFIG_ID=scone-worker-3/avalon-scone-worker-session python3
+         bash /entrypoint.sh scone-worker-3
       "
 #    command: |
 #      bash -c "
@@ -243,62 +243,3 @@ services:
     networks:
       - avalon-network
   
-  scone-worker-4:
-    container_name: scone-worker-4
-    image: avalon-scone-worker-dev
-    environment:
-      - http_proxy
-      - https_proxy
-      - no_proxy
-    devices:
-      - "/dev/isgx:/dev/isgx"
-    expose:
-      # ZMQ socket port used to communicate with scone python worker.
-      - 7777
-    # Need to pass full path of file to python interpreter.
-    # Pass ZMQ URL to listen for requests. Bind to all available interfaces.
-    command: |
-      bash -c "
-         bash /wait-for.sh https://cas:8081/v1/values/session=scone-worker-4 -- echo "Ready" && SCONE_MODE=HW SCONE_ALPINE=1 SCONE_VERSION=1 SCONE_HEAP=4G SCONE_ALLOW_DLOPEN=1 SCONE_CONFIG_ID=scone-worker-4/avalon-scone-worker-session python3
-      "
-#    command: |
-#      bash -c "
-#        wo-processor --bind "tcp://*:7777"
-#      "
-#    command: |
-#      bash -c "tail -f /dev/null"
-    stop_signal: SIGKILL
-    depends_on:
-      - scone-kme
-    networks:
-      - avalon-network
-  
-  scone-worker-5:
-    container_name: scone-worker-5
-    image: avalon-scone-worker-dev
-    environment:
-      - http_proxy
-      - https_proxy
-      - no_proxy
-    devices:
-      - "/dev/isgx:/dev/isgx"
-    expose:
-      # ZMQ socket port used to communicate with scone python worker.
-      - 7777
-    # Need to pass full path of file to python interpreter.
-    # Pass ZMQ URL to listen for requests. Bind to all available interfaces.
-    command: |
-      bash -c "
-         bash /wait-for.sh https://cas:8081/v1/values/session=scone-worker-5 -- echo "Ready" && SCONE_MODE=HW SCONE_ALPINE=1 SCONE_VERSION=1 SCONE_HEAP=4G SCONE_ALLOW_DLOPEN=1 SCONE_CONFIG_ID=scone-worker-5/avalon-scone-worker-session python3
-      "
-#    command: |
-#      bash -c "
-#        wo-processor --bind "tcp://*:7777"
-#      "
-#    command: |
-#      bash -c "tail -f /dev/null"
-    stop_signal: SIGKILL
-    depends_on:
-      - scone-kme
-    networks:
-      - avalon-network

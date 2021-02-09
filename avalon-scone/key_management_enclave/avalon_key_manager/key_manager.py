@@ -21,13 +21,16 @@ import sys
 import toml
 import json
 import random
+import string
 from flask import Flask
 from OpenSSL import crypto, SSL
-
+ 
 
 app = Flask(__name__)
 
 tcf_home = os.environ.get("TCF_HOME", "/project/avalon")
+scone_workers_list=[]
+
 
 def generate_self_signed_certs(
     commonName="www.scontain.com",
@@ -81,16 +84,21 @@ def main(args=None):
     
 @app.route('/scone_workers')
 def get_workers():
-    """
-    Constructor to generate worker signing and encryption keys.
-    """
-    f = open("workers_added.txt", "r")
-    workers_file=f.read()
-    f.close()
-    workers_file=workers_file[:-1]
-    workers_array = workers_file.split(",")
-    workers_json = json.dumps(workers_array)
+    workers_json = json.dumps([ob.__dict__ for ob in scone_workers_list])
     return workers_json
+
+@app.route('/scone_worker_session/<worker_id>')
+def get_worker_session(worker_id):
+    worker_session_id='invalid'
+    for valid_worker in scone_workers_list:
+        if valid_worker.worker_id==worker_id:
+            worker_session_id=valid_worker.worker_session_id   
+    return worker_session_id
+
+class Avalon_Scone_Workers:  
+    def __init__(self, worker_id, worker_session_id):  
+        self.worker_id = worker_id  
+        self.worker_session_id = worker_session_id
 
 class KeyManager():
 
@@ -98,7 +106,6 @@ class KeyManager():
         """
         Constructor to generate worker signing and encryption keys.
         """
-        self.scone_workers_list = ""
         self._upload_worker_sessions()
 
     def _upload_worker_sessions(self):
@@ -111,6 +118,7 @@ class KeyManager():
             # Get worker encryption tags
             fspf_key=os.environ["WORKER_FS_KEY"]
             fspf_tag=os.environ["WORKER_FS_TAG"]
+            Worker_MREnclave=os.environ["WORKER_MRENCLAVE"]
             # Generate worker signing key
             print("Generate worker signing and encryption keys")
             num_of_enclaves = int(config["EnclaveModule"]["num_of_enclaves"])
@@ -120,6 +128,9 @@ class KeyManager():
                 count = count + 1
                 worker_id_template = config["WorkerConfig"]["worker_id_template"]
                 worker_id = worker_id_template.replace("-n", "-" + str(count))
+                letters_and_digits = string.ascii_letters + string.digits
+                worker_session_id=worker_id
+                #worker_session_id=''.join((random.choice(letters_and_digits) for i in range(10)))
                 print("worker_id ", worker_id)
                 sign = worker_signing.WorkerSign()
                 sign.generate_signing_key()
@@ -143,8 +154,9 @@ class KeyManager():
                 session_file=session_file.replace("signing_private_key_value","\""+worker_private_sign_key.decode("utf-8")+"\"")
                 session_file=session_file.replace("signing_public_key_value","\""+worker_public_sign_key.decode("utf-8")+"\"")
                 session_file=session_file.replace("encryption_key_signature_value","\""+worker_public_enc_key_sign.hex()+"\"")
-                session_file=session_file.replace("MR_ENCLAVE", config["EnclaveManager"]["mrenclave_worker"])
-                session_file=session_file.replace("WORKER_ID", worker_id)
+                # Uploading expected MREnclave of worker in KME session
+                session_file=session_file.replace("MR_ENCLAVE", Worker_MREnclave)
+                session_file=session_file.replace("WORKER_ID", worker_session_id)
                 session_file=session_file.replace("WORKER_FSPF_TAG", fspf_tag)
                 session_file=session_file.replace("WORKER_FSPF_KEY", fspf_key)
 
@@ -156,14 +168,10 @@ class KeyManager():
                 
                 if p.text.find("\"hash\":")>=0:
                     print ('Session uploaded for : ', worker_id)
-                    self.scone_workers_list=self.scone_workers_list+worker_id+","
+                    scone_workers_list.append( Avalon_Scone_Workers(worker_id, worker_session_id) )
                 else:
                     print("Error in session uploading")
                     print(p.text)
-
-            f = open("workers_added.txt", "a")
-            f.write(self.scone_workers_list)
-            f.close()
 
         except Exception as e:
             print(str(e))
