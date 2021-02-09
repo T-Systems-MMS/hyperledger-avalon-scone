@@ -24,7 +24,7 @@ if [ "$1" == "start" ]; then
 
 	echo "Determining SGX Device"
 	
-	echo "Starting Scone CAS and LAS containers"
+	echo "Starting Scone LAS container"
 
 	docker-compose -f docker-compose-scone-baseline.yaml up -d
 	sleep 5
@@ -53,7 +53,7 @@ if [ "$1" == "stop" ]; then
 
 	docker-compose -f docker-compose-scone-avalon.yaml down -v
 
-	echo "Stopping Scone CAS and LAS containers"
+	echo "Stopping Scone LAS container"
 
 	docker-compose -f docker-compose-scone-baseline.yaml down -v
 
