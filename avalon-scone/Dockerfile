@@ -83,6 +83,7 @@ RUN pip3 install wheel==0.35.1
 RUN pip3 install requests==2.25.0
 RUN pip3 install toml==0.10.2
 RUN pip3 install Flask==1.1.2
+RUN pip3 install cryptography==3.3.1
 RUN pip3 install pyOpenSSL==19.1.0
 
 FROM registry.scontain.com:5050/sconecuratedimages/crosscompilers:runtime-alpine3.7-scone4
